@@ -59,7 +59,11 @@ zip() {
     cd ..
     for dir in ./mpv*$arch*; do
         if [ -d $dir ]; then
-            7z a -m0=lzma2 -mx=9 -ms=on $dir.7z $dir/* -x!*.7z
+            if [ "$arch" == "x86_64" ]; then
+                7z a -tzip -mx=9 $dir.zip $dir/* -x!*.7z -x!*.zip
+            else
+                7z a -m0=lzma2 -mx=9 -ms=on $dir.7z $dir/* -x!*.7z
+            fi
             rm -rf $dir
         fi
     done
